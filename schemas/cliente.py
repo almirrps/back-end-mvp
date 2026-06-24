@@ -54,7 +54,7 @@ class ClienteViewSchema(BaseModel):
     enderecos:List[EnderecoSchema]
 
 
-class EnderecoDelSchema(BaseModel):
+class ClienteDelSchema(BaseModel):
     """ Define como deve ser a estrutura do dado retornado apos uma requisicao
         de remocao.
     """
