@@ -11,7 +11,7 @@ from flask_cors import CORS
 
 info = Info(title="API de Cadastro de Clientes", version="1.0.0")
 app = OpenAPI(__name__, info=info)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": ["null", "http://127.0.0.1:5000"]}})
 
 # definindo tags
 home_tag = Tag(name="Documentacao", description="Selecao de documentacao: Swagger, Redoc ou RapiDoc")
@@ -58,6 +58,50 @@ def add_cliente(form: ClienteSchema):
         # caso um erro fora do previsto
         error_msg = "Nao foi possivel salvar novo item :/"
         logger.warning(f"Erro ao adicionar cliente '{cliente.nome}', {error_msg}")
+        return {"mesage": error_msg}, 400
+
+
+@app.put('/cliente', tags=[cliente_tag],
+         responses={"200": ClienteViewSchema, "404": ErrorSchema, "400": ErrorSchema})
+def update_cliente(query: ClienteBuscaSchema, form: ClienteSchema):
+    """Atualiza os dados de um Cliente existente na base de dados
+
+    Retorna uma representacao do cliente atualizado.
+    """
+    
+    nomeCli = query.nome
+    
+    logger.debug(f"Atualizando cliente de nome: '{nomeCli}'")
+    try:
+        # criando conexao com a base
+        session = Session()
+        
+        # buscando o cliente existente pelo Nome
+        cliente = session.query(Cliente).filter(Cliente.nome == nomeCli).first()
+        
+        # se o cliente nao for encontrado, retorna erro 404
+        if not cliente:
+            error_msg = "Cliente nao encontrado na base :/"
+            logger.warning(f"Erro ao atualizar cliente Nome '{nomeCli}', {error_msg}")
+            return {"mesage": error_msg}, 404
+
+        # Atualizando os dados do cliente encontrado
+        cliente.nome = form.nome
+        cliente.sexo = form.sexo
+        cliente.cpf = form.cpf
+        cliente.idade = form.idade
+           
+        # efetivando o comando de atualizacao no banco
+        session.commit()
+        logger.debug(f"Cliente '{nomeCli}' atualizado com sucesso!")
+        
+        return apresenta_cliente(cliente), 200
+
+    except Exception as e:
+        # caso ocorra um erro fora do previsto (ex: quebra de constraint)
+        session.rollback() # desfaz alteracoes em caso de erro
+        error_msg = "Nao foi possivel atualizar o item :/"
+        logger.warning(f"Erro ao atualizar cliente '{nomeCli}', {error_msg}")
         return {"mesage": error_msg}, 400
 
 
