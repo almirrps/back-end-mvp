@@ -16,7 +16,7 @@ CORS(app, resources={r"/*": {"origins": ["null", "http://127.0.0.1:5000"]}})
 # definindo tags
 home_tag = Tag(name="Documentacao", description="Selecao de documentacao: Swagger, Redoc ou RapiDoc")
 cliente_tag = Tag(name="Cliente", description="Adicao, visualizacao e remocao de clientes a base")
-endereco_tag = Tag(name="Endereco", description="Adicao de um endereco a um cliente cadastrado na base")
+endereco_tag = Tag(name="Endereco", description="Adicao, visualizacao e remocao de um endereco a um cliente cadastrado na base")
 
 @app.get('/', tags=[home_tag])
 def home():
@@ -183,7 +183,7 @@ def del_cliente(query: ClienteBuscaSchema):
 @app.post('/endereco', tags=[endereco_tag],
           responses={"200": ClienteViewSchema, "404": ErrorSchema})
 def add_endereco(form: EnderecoSchema):
-    """Adiciona de um novo endereco a um cliente cadastrado na base identificado pelo id
+    """Adiciona um novo endereco a um cliente cadastrado na base identificado pelo cliente_id
 
     Retorna uma representacao dos clientes e enderecos associados.
     """
@@ -214,4 +214,43 @@ def add_endereco(form: EnderecoSchema):
     logger.debug(f"Adicionado endereco ao cliente #{cliente_id}")
 
     # retorna a representacao de cliente
+    return apresenta_cliente(cliente), 200
+
+
+@app.put('/endereco', tags=[endereco_tag],
+         responses={"200": ClienteViewSchema, "404": ErrorSchema})
+def update_endereco(form: EnderecoUpdateSchema):
+    """Atualiza um endereço específico com base no id do endereço fornecido.
+
+    Retorna a representação do cliente e a lista de endereços atualizada.
+    """
+    endereco_id = form.id
+    cliente_id = form.cliente_id
+    
+    logger.debug(f"Editando endereço #{endereco_id} do cliente #{cliente_id}")
+    
+    # Criando conexão com a base de dados
+    session = Session()
+    
+    # Fazendo a busca do endereco que possui o ID selecionado
+    endereco = session.query(Endereco).filter(Endereco.id == endereco_id).first()
+
+    if not endereco:
+        error_msg = "Endereço não encontrado na base :/"
+        logger.warning(f"Erro ao atualizar endereço #{endereco_id}: {error_msg}")
+        return {"mesage": error_msg}, 404
+
+    # Atualiza apenas os campos do endereço selecionado
+    endereco.logradouro = form.logradouro
+    endereco.bairro = form.bairro
+    endereco.cidade = form.cidade
+    endereco.estado = form.estado
+    
+    # Salva as alterações no banco de dados
+    session.commit()
+
+    # Busca o cliente dono deste endereço 
+    cliente = session.query(Cliente).filter(Cliente.id == cliente_id).first()
+    
+    # Retorna o conjunto com os dados do cliente e a lista de endereços atualizada
     return apresenta_cliente(cliente), 200
