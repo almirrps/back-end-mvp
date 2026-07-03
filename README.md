@@ -19,10 +19,13 @@ Este projeto tem o objetivo de realizar o cadastro de clientes com endereço par
 ## ✨ Funcionalidades
 
 * 1: Cadastro de clientes
-* 2: Cadastro de endereços relacionados ao cliente cadastrado
-* 3: Consulta de clientes por meio do nome e seus respectivos endereços cadastrados
-* 4: Deleção de clientes
-* 5: Deleção de endereços de um determinado cliente
+* 2: Atualização de clientes
+* 3: Deleção de clientes
+* 4: Cadastro de endereços de cliente
+* 5: Atualizaão de endereços de cliente
+* 6: Deleção de endereços de cliente
+* 7: Consulta de clientes por meio do nome 
+* 8: Consulta de clientes por listagem
 ------------------------------
 ## 🛠 Tecnologias Utilizadas
 
