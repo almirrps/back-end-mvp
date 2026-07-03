@@ -254,3 +254,29 @@ def update_endereco(form: EnderecoUpdateSchema):
     
     # Retorna o conjunto com os dados do cliente e a lista de endereços atualizada
     return apresenta_cliente(cliente), 200
+
+
+@app.delete('/endereco', tags=[endereco_tag],
+            responses={"200": EnderecoDelSchema, "404": ErrorSchema})
+def del_endereco(query: EnderecoBuscaSchema):
+    """Deleta um Endereco a partir do ID do endereco informado
+
+    Retorna uma mensagem de confirmacao da remocao.
+    """
+    enderecoId = query.id
+    logger.debug(f"Deletando dados sobre endereco #{enderecoId}")
+    # criando conexao com a base
+    session = Session()
+    # fazendo a remocao
+    count = session.query(Endereco).filter(Endereco.id == enderecoId).delete()
+    session.commit()
+
+    if count:
+        # retorna a representacao da mensagem de confirmacao
+        logger.debug(f"Deletado endereco #{enderecoId}")
+        return {"mesage": "Endereco removido", "id": enderecoId}
+    else:
+        # se o endereco nao foi encontrado
+        error_msg = "Endereco nao encontrado na base :/"
+        logger.warning(f"Erro ao deletar endereco #'{enderecoId}', {error_msg}")
+        return {"mesage": error_msg}, 404

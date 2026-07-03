@@ -20,3 +20,16 @@ class EnderecoUpdateSchema(BaseModel):
     bairro: str
     cidade: str
     estado: str
+
+class EnderecoBuscaSchema(BaseModel):
+    """ Define como deve ser a estrutura que representa a busca. Que sera
+        feita apenas com base no ID do endereco.
+    """
+    id: int  
+
+class EnderecoDelSchema(BaseModel):
+    """ Define como deve ser a estrutura do dado retornado apos uma requisicao
+        de remocao.
+    """
+    message: str
+    nome: str
