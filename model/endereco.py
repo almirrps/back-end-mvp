@@ -1,4 +1,5 @@
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 from datetime import datetime
 from typing import Union
 
@@ -19,7 +20,11 @@ class Endereco(Base):
     # Aqui esta sendo definido a coluna 'cliente' que vai guardar
     # a referencia ao cliente, a chave estrangeira que relaciona
     # um cliente ao endereco.
+    # Mantém a sua coluna física exatamente como estava para não quebrar seu banco de dados
     cliente = Column(Integer, ForeignKey("cliente.pk_cliente"), nullable=False)
+
+    # Criando a relação inversa sem chocar com o nome da coluna acima
+    cliente_objeto = relationship("Cliente", back_populates="enderecos")
 
     def __init__(self, logradouro:str, bairro:str, cidade:str, estado:str, 
                  data_insercao:Union[DateTime, None] = None):

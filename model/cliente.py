@@ -16,10 +16,10 @@ class Cliente(Base):
     data_insercao = Column(DateTime, default=datetime.now())
 
     # Definicao do relacionamento entre o cliente e o endereco.
-    # Essa relacao e implicita, nao esta salva na tabela 'cliente',
-    # mas aqui estou deixando para SQLAlchemy a responsabilidade
-    # de reconstruir esse relacionamento.
-    enderecos = relationship("Endereco")
+    # Aqui estou deixando para SQLAlchemy a responsabilidade
+    # de reconstruir esse relacionamento, ao mesmo tempo em que
+    # configura a deleção em cascata (all, delete-orphan)
+    enderecos = relationship("Endereco", cascade="all, delete-orphan", back_populates="cliente_objeto")
 
     def __init__(self, nome:str, sexo:str, cpf:str, idade:int, 
                  data_insercao:Union[DateTime, None] = None):

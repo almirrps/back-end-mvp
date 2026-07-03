@@ -156,20 +156,26 @@ def get_cliente(query: ClienteBuscaSchema):
 @app.delete('/cliente', tags=[cliente_tag],
             responses={"200": ClienteDelSchema, "404": ErrorSchema})
 def del_cliente(query: ClienteBuscaSchema):
-    """Deleta um Cliente a partir do nome de cliente informado
+    """Deleta um Cliente a partir do nome de cliente informado e seus enderecos
 
     Retorna uma mensagem de confirmacao da remocao.
     """
     cliente_nome = unquote(unquote(query.nome))
     print(cliente_nome)
     logger.debug(f"Deletando dados sobre cliente #{cliente_nome}")
+
     # criando conexao com a base
     session = Session()
-    # fazendo a remocao
-    count = session.query(Cliente).filter(Cliente.nome == cliente_nome).delete()
-    session.commit()
 
-    if count:
+    # buscando o cliente que devera ser deletado 
+    cliente = session.query(Cliente).filter(Cliente.nome == cliente_nome).first()
+
+    if cliente:
+
+        # deletando o cliente e seus enderecos 
+        session.delete(cliente)
+        session.commit()
+
         # retorna a representacao da mensagem de confirmacao
         logger.debug(f"Deletado cliente #{cliente_nome}")
         return {"mesage": "Cliente removido", "id": cliente_nome}
