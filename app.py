@@ -207,11 +207,12 @@ def add_endereco(form: EnderecoSchema):
         return {"mesage": error_msg}, 404
 
     # criando o endereco
+    cep = form.cep
     logradouro = form.logradouro
     bairro = form.bairro
     cidade = form.cidade
     estado = form.estado
-    endereco = Endereco(logradouro, bairro, cidade, estado)
+    endereco = Endereco(cep, logradouro, bairro, cidade, estado)
 
     # adicionando o endereco ao cliente
     cliente.adiciona_endereco(endereco)
@@ -247,6 +248,7 @@ def update_endereco(form: EnderecoUpdateSchema):
         return {"mesage": error_msg}, 404
 
     # Atualiza apenas os campos do endereço selecionado
+    endereco.cep = form.cep
     endereco.logradouro = form.logradouro
     endereco.bairro = form.bairro
     endereco.cidade = form.cidade

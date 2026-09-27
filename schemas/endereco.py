@@ -6,6 +6,7 @@ class EnderecoSchema(BaseModel):
     """ Define como um novo endereco a ser inserido deve ser representado
     """
     cliente_id: int = 1
+    cep: str = "14057-350"
     logradouro: str = "Rua das Flores, 31"
     bairro: str = "Bairro Jardins"
     cidade: str = "Sao Paulo"
@@ -16,6 +17,7 @@ class EnderecoUpdateSchema(BaseModel):
     """
     id: int  
     cliente_id: int
+    cep: str
     logradouro: str
     bairro: str
     cidade: str

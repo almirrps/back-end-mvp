@@ -1,6 +1,7 @@
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from sqlalchemy import text
 import os
 
 # importando os elementos definidos no modelo
@@ -29,3 +30,15 @@ if not database_exists(engine.url):
 
 # cria as tabelas do banco, caso nao existam
 Base.metadata.create_all(engine)
+
+# Abrindo uma conexão para adicionar a coluna CEP
+with engine.connect() as conexao:
+    try:
+        # Comando para adicionar a coluna cep se ela não existir
+        conexao.execute(text("ALTER TABLE endereco ADD COLUMN cep VARCHAR(9);"))
+    except Exception as e:
+        if "duplicate column name" in str(e).lower() or "operationalerror" in str(e).lower():
+            print("A coluna 'cep' já existe no banco de dados. Nenhuma alteração foi necessária.")
+        else:
+            print(f"Erro inesperado ao aplicar migração: {e}")
+# --- Fim do comando para adicionar nova coluna ---

@@ -10,6 +10,7 @@ class Endereco(Base):
     __tablename__ = 'endereco'
 
     id = Column(Integer, primary_key=True)
+    cep = Column(String(9), nullable=True)
     logradouro = Column(String(4000))
     bairro = Column(String(4000))
     cidade = Column(String(4000))
@@ -26,12 +27,13 @@ class Endereco(Base):
     # Criando a relação inversa sem chocar com o nome da coluna acima
     cliente_objeto = relationship("Cliente", back_populates="enderecos")
 
-    def __init__(self, logradouro:str, bairro:str, cidade:str, estado:str, 
+    def __init__(self, cep:str, logradouro:str, bairro:str, cidade:str, estado:str, 
                  data_insercao:Union[DateTime, None] = None):
         """
         Cria um Endereco
 
         Arguments:
+            cep: o cep do cliente
             logradouro: o endereco do cliente.
             bairro: o bairro do cliente.
             cidade: a cidade do cliente.
@@ -39,6 +41,7 @@ class Endereco(Base):
             data_insercao: data de quando o endereco foi inserido
                            à base
         """
+        self.cep = cep
         self.logradouro = logradouro
         self.bairro = bairro
         self.cidade = cidade

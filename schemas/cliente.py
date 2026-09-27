@@ -72,6 +72,6 @@ def apresenta_cliente(cliente: Cliente):
         "cpf": cliente.cpf,
         "idade": cliente.idade,
         "total_enderecos": len(cliente.enderecos),
-        "enderecos": [{"id": c.id, "logradouro": c.logradouro, "bairro": c.bairro, "cidade": c.cidade,
-                       "estado": c.estado} for c in cliente.enderecos]
+        "enderecos": [{"id": c.id, "cep": c.cep, "logradouro": c.logradouro, "bairro": c.bairro, 
+                       "cidade": c.cidade, "estado": c.estado} for c in cliente.enderecos]
     }
