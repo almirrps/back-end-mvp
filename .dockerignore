@@ -1,0 +1,33 @@
+# Ambientes virtuais
+venv/
+env/
+.venv/
+
+# Arquivos compilados do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs e arquivos do sistema
+*.log
+.DS_Store
+Thumbs.db
+
+# Pastas de Build e Distribução
+dist/
+build/
+.next/
+
+# Variáveis de ambiente
+.env
+
+# Configurações do Git e IDEs
+.git/
+.gitignore
+.vscode/
+.idea/
+
+# Arquivos do próprio Docker
+Dockerfile
+.dockerignore
