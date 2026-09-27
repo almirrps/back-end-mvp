@@ -40,6 +40,7 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 * Python (versão 3.x recomendada)
 * Gerenciador de pacotes pip (geralmente já vem com o Python)
 * (Opcional) Ambiente virtual como venv ou conda [7, 8, 9] 
+* Docker em execução
 ------------------------------
 ## 🔧 Instalação
 
@@ -50,36 +51,26 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 git clone https://github.com/almirrps/back-end-mvp.git
 
 
-   2. Entre na pasta do projeto:
-
-cd back-end-mvp
-
-
-   3. Crie e ative um ambiente virtual (recomendado):
-
-# Windows
-python -m venv venv
-venv\Scripts\activate
-# Linux/macOS
-python3 -m venv venv
-source .venv/bin/activate
-
-
-   4. Instale as dependências:
-
-pip install -r requirements.txt
+   2. Instale o Docker seguindo o tutorial adequado para o seu sistema operacional:
+● Windows: https://docs.docker.com/desktop/install/windows-install/
+● Ubuntu: https://docs.docker.com/engine/install/ubuntu/
+● Mac OS: https://docs.docker.com/desktop/install/mac-install/
 ------------------------------
 ## 🚀 Como Executar
 
-Com o terminal na pasta raiz do projeto, execute o comando abaixo:
+Após certificar-se de que o Docker está devidamente instalado e rodando. Com o terminal na pasta raiz do projeto, execute os seguintes comandos:
 
-(env)$ flask run --host 0.0.0.0 --port 5000
+- Para gerar a imagem Docker do projeto
+docker build --no-cache -t mvp-back-end-python .
+
+- Para executar a imagem do projeto criado e disponibilizando-a na porta 4000 do seu computador
+run -it --rm -p 4000:4000 mvp-back-end-python
 ------------------------------
 ## 🧪 Acessando Documentação
 
 Para acessar a documentação do Swagger da aplicação, digite no browser de sua preferência o link abaixo:
 
-http://192.168.18.225:5000/openapi/
+http://localhost:4000/openapi/
 ------------------------------
 ## 🤝 Como Contribuir
 
