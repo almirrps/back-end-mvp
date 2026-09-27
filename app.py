@@ -11,7 +11,7 @@ from flask_cors import CORS
 
 info = Info(title="API de Cadastro de Clientes", version="1.0.0")
 app = OpenAPI(__name__, info=info)
-CORS(app, resources={r"/*": {"origins": ["null", "http://127.0.0.1:5000"]}})
+CORS(app, resources={r"/*": {"origins": ["null", "http://127.0.0.1:5000", "http://localhost:3000", "http://127.0.0.1:3000"]}})
 
 # definindo tags
 home_tag = Tag(name="Documentacao", description="Selecao de documentacao: Swagger, Redoc ou RapiDoc")
