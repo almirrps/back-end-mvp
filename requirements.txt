@@ -4,8 +4,10 @@ flask-openapi3
 Flask-SQLAlchemy
 nose2
 pydantic
-SQLAlchemy
-SQLAlchemy-Utils
+SQLAlchemy>=1.4.0,<2.0.0
+sqlalchemy-utils
 typing_extensions
 werkzeug
 flask-openapi3[swagger]
+fastapi
+uvicorn

@@ -288,3 +288,7 @@ def del_endereco(query: EnderecoBuscaSchema):
         error_msg = "Endereco nao encontrado na base :/"
         logger.warning(f"Erro ao deletar endereco #'{enderecoId}', {error_msg}")
         return {"mesage": error_msg}, 404
+
+if __name__ == "__main__":
+    print("🚀 Aplicacao back-end-mvp rodando na porta 4000")
+    app.run(host="0.0.0.0", port=4000)
