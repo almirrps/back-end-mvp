@@ -58,13 +58,8 @@ git clone https://github.com/almirrps/back-end-mvp.git
 ------------------------------
 ## 🚀 Como Executar
 
-Após certificar-se de que o Docker está devidamente instalado e rodando. Com o terminal na pasta raiz do projeto, execute os seguintes comandos:
-
-- Para gerar a imagem Docker do projeto
-docker build --no-cache -t mvp-back-end-python .
-
-- Para executar a imagem do projeto criado e disponibilizando-a na porta 4000 do seu computador
-run -it --rm -p 4000:4000 mvp-back-end-python
+Após certificar-se de que o Docker está devidamente instalado e rodando. Com o terminal na pasta raiz do projeto, execute o seguinte comando:
+docker compose up --build
 ------------------------------
 ## 🧪 Acessando Documentação
 
